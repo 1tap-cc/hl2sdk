@@ -70,7 +70,7 @@ typedef void * FileHandle_t;
 class KeyValues
 {
 public:
-	KeyValues( const char *setName, int idk, int idk2 );
+	KeyValues( const char *setName );
 
 	//
 	// AutoDelete class to automatically free the keyvalues.
@@ -82,7 +82,7 @@ public:
 	{
 	public:
 		explicit inline AutoDelete( KeyValues *pKeyValues ) : m_pKeyValues( pKeyValues ) {}
-		explicit inline AutoDelete( const char *pchKVName ) : m_pKeyValues( new KeyValues( pchKVName, 0, 0 ) ) {}
+		explicit inline AutoDelete( const char *pchKVName ) : m_pKeyValues( new KeyValues( pchKVName ) ) {}
 		inline ~AutoDelete( void ) { if( m_pKeyValues ) m_pKeyValues->deleteThis(); }
 		inline void Assign( KeyValues *pKeyValues ) { m_pKeyValues = pKeyValues; }
 		KeyValues *operator->()	{ return m_pKeyValues; }
@@ -342,7 +342,8 @@ private:
 	char	   m_bHasEscapeSequences; // true, if while parsing this KeyValue, Escape Sequences are used (default false)
 	uint16	   m_iKeyNameCaseSensitive2;	// 2nd part of case sensitive symbol defined in KeyValueSystem;
 
-	char	   pad[8];
+	uint32     m_iUnk1;
+	uint32     m_iUnk2;
 
 	KeyValues *m_pPeer;	// pointer to next key in list
 	KeyValues *m_pSub;	// pointer to Start of a new sub key list
